@@ -1,15 +1,16 @@
-import React from 'react'
-import './Home.scss'
+import React from "react";
+import "./Home.scss";
+import { IProduct } from "../../types/products";
+import SushiList from "./components/SushiList";
 
-const c = 'home-page'
+const c = "home-page";
 
 const Home = () => {
-
   return (
     <div className={c}>
-      GOOD LUCK 🙂
+      <SushiList />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

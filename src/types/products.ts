@@ -18,3 +18,9 @@ export interface IProduct {
     pieces: string;
     discount: string
 }
+
+export interface IProductList{
+    category_id:string,
+    category_name:string,
+    items:Array<IProduct>
+}
