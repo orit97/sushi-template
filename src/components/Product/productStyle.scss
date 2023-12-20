@@ -1,0 +1,26 @@
+// SushiProduct.scss
+.sushi-product {
+    border: 1px solid #de3e3e;
+    padding: 15px;
+    margin-bottom: 10px;
+  
+    h3 {
+      margin-bottom: 10px;
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  
+    li {
+      margin-bottom: 5px;
+    }
+    
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px; // Add some spacing below the other details
+  }
+  }
+  
