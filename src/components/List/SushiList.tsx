@@ -5,12 +5,14 @@ import { getCategories } from "../../api/categories";
 import { IProductList } from "../../types/products";
 import { ICategory } from "../../types/categories";
 import SushiProduct from "../Product/SushiProduct";
+import Cart from "../Cart/Cart";
 import "./listStyle.scss";
 
 const SushiList: React.FC = () => {
   const [sushiProducts, setSushiProducts] = useState<IProductList[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useState<any[]>([]);
 
   const fetchProducts = async () => {
     try {
@@ -41,6 +43,36 @@ const SushiList: React.FC = () => {
     setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
   };
 
+  const addToCart = (product: IProductList) => {
+    // Check if the product is already in the cart
+    const existingProduct = cartItems.find(
+      (item) => item.items[0]._id === product.items[0]._id
+    );
+
+    if (existingProduct) {
+      // Product is already in the cart, update the quantity
+      setCartItems((prevCartItems) =>
+        prevCartItems.map((item) =>
+          item.items[0]._id === existingProduct.items[0]._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      // Product is not in the cart, add it with quantity 1
+      setCartItems((prevCartItems) => [
+        ...prevCartItems,
+        { ...product, quantity: 1 },
+      ]);
+    }
+  };
+
+  const removeFromCart = (itemId: string) => {
+    setCartItems((prevCartItems) => {
+      return prevCartItems.filter((item) => item.items[0]._id !== itemId);
+    });
+  };
+
   return (
     <div className="sushi-list-container">
       <h2>Sushi Categories</h2>
@@ -64,13 +96,13 @@ const SushiList: React.FC = () => {
           )
           .map((product) => (
             <div key={product.category_id} className="sushi-list-item">
-              <SushiProduct product={product} />
+              <SushiProduct product={product} addToCart={addToCart} />
             </div>
           ))}
       </div>
+      <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
     </div>
   );
 };
 
 export default SushiList;
-
